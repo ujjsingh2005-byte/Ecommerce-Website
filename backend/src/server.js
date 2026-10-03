@@ -79,6 +79,20 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Ensure Database is connected before API requests
+app.use('/api', async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    await connectDB();
+  }
+  if (mongoose.connection.readyState !== 1 && req.path !== '/health') {
+    return res.status(503).json({
+      success: false,
+      message: 'Database is currently connecting. Please ensure MongoDB Atlas Network Access has 0.0.0.0/0 whitelisted.'
+    });
+  }
+  next();
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
