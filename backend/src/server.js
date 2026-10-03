@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 import path from 'path';
+import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
@@ -59,16 +60,20 @@ app.use('/uploads', express.static(uploadsPath));
 
 // Root & Health Check Endpoints
 app.get('/', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected/connecting';
   res.json({
     status: 'online',
+    database: dbStatus,
     message: 'NexStore E-Commerce Backend API is active and running',
     timestamp: new Date()
   });
 });
 
 app.get('/api/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected/connecting';
   res.json({
     status: 'healthy',
+    database: dbStatus,
     timestamp: new Date(),
     service: 'Ecommerce Production Backend API'
   });
