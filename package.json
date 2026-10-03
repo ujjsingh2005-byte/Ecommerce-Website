@@ -1,0 +1,15 @@
+{
+  "name": "fullstack-ecommerce-platform",
+  "version": "1.0.0",
+  "description": "Production-Grade Full-Stack E-Commerce Web Application",
+  "scripts": {
+    "backend": "npm --prefix backend start",
+    "backend:dev": "npm --prefix backend run dev",
+    "frontend": "npm --prefix frontend run dev",
+    "seed": "npm --prefix backend run seed",
+    "build": "npm --prefix frontend run build"
+  },
+  "keywords": ["ecommerce", "fullstack", "react", "nodejs", "mongodb", "express"],
+  "author": "",
+  "license": "MIT"
+}
