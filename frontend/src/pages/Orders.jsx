@@ -137,7 +137,7 @@ export const Orders = () => {
       {/* Orders List */}
       <div className="space-y-6">
         {orders.map((order) => {
-          const canDelete = isAdmin || ['Payment Failed', 'Cancelled'].includes(order.orderStatus);
+          const canDelete = isAdmin;
 
           return (
             <div

@@ -27,7 +27,7 @@ router.get('/razorpay-key', protect, getRazorpayKey);
 
 router.route('/:id')
   .get(protect, getOrderById)
-  .delete(protect, deleteOrder);
+  .delete(protect, admin, deleteOrder);
 
 router.put('/:id/cancel', protect, cancelOrder);
 router.post('/:id/verify-payment', protect, verifyPayment);

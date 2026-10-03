@@ -418,29 +418,22 @@ export const cancelOrder = async (req, res, next) => {
   }
 };
 
-// @desc    Delete an order (Admin authority to delete any; customers can delete failed/cancelled)
+// @desc    Delete an order (Strictly Admin Authority Only)
 // @route   DELETE /api/orders/:id
-// @access  Private
+// @access  Private/Admin
 export const deleteOrder = async (req, res, next) => {
   try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access Denied: Customers do not have authority to delete order records. Only Administrators can delete orders.'
+      });
+    }
+
     const order = await Order.findById(req.params.id);
 
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
-    }
-
-    const isAdmin = req.user.role === 'admin';
-    const isOwner = order.user.toString() === req.user._id.toString();
-
-    if (!isAdmin && !isOwner) {
-      return res.status(403).json({ success: false, message: 'Not authorized to delete this order' });
-    }
-
-    if (!isAdmin && !['Payment Failed', 'Cancelled'].includes(order.orderStatus)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Customers can only delete cancelled or payment failed orders'
-      });
     }
 
     // Restore stock if deleting an active pending order
@@ -458,7 +451,7 @@ export const deleteOrder = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: `Order ${order.orderNumber} deleted successfully`
+      message: `Order ${order.orderNumber} deleted successfully by administrator.`
     });
   } catch (error) {
     next(error);
