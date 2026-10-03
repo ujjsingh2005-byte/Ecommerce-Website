@@ -2,14 +2,28 @@
   "name": "fullstack-ecommerce-platform",
   "version": "1.0.0",
   "description": "Production-Grade Full-Stack E-Commerce Web Application",
+  "type": "module",
   "scripts": {
+    "start": "node backend/src/server.js",
+    "build": "npm --prefix backend install && npm --prefix frontend install && npm --prefix frontend run build",
     "backend": "npm --prefix backend start",
     "backend:dev": "npm --prefix backend run dev",
     "frontend": "npm --prefix frontend run dev",
-    "seed": "npm --prefix backend run seed",
-    "build": "npm --prefix frontend run build"
+    "seed": "node backend/src/utils/seed.js",
+    "install:all": "npm --prefix backend install && npm --prefix frontend install"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "razorpay": "^2.9.8"
   },
   "keywords": ["ecommerce", "fullstack", "react", "nodejs", "mongodb", "express"],
-  "author": "",
+  "author": "Ujjwal Singh",
   "license": "MIT"
 }
